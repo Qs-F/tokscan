@@ -28,12 +28,12 @@ jobs:
 
       - run: go mod download
 
-      # - run: make test
+      - run: make test
 
-      - name: Lint
-        run: |
-          gofmt -d . | if [$(wc -l) != 0 ]; then exit 1; fi
-
-      - name: Test
-        run: |
-          go test ./...
+      # - name: Lint
+      #   run: |
+      #     gofmt -d . | if [$(wc -l) != 0 ]; then exit 1; fi
+      # 
+      # - name: Test
+      #   run: |
+      #     go test ./...
