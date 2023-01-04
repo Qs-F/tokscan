@@ -1,0 +1,39 @@
+name: test
+
+on:
+  push:
+    # branches-ignore:
+    #   - "main"
+
+jobs:
+
+  test:
+    name: test
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-go@v3
+        with:
+          go-version-file: ./go.mod
+          cache: true 
+
+      - run: go mod download
+
+      - run: make test
+
+      - name: Lint
+        run: |
+          gofmt -d . | if [$(wc -l) != 0 ]; then exit 1; fi
+
+      - name: Test
+        run: |
+          go test ./...
