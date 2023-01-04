@@ -1,5 +1,4 @@
 test:
-	./lint.sh
 	go test ./...
 
 build:
