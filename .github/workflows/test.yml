@@ -28,12 +28,6 @@ jobs:
 
       - run: go mod download
 
-      - run: make test
+      - run: make test-cov
 
-      # - name: Lint
-      #   run: |
-      #     gofmt -d . | if [$(wc -l) != 0 ]; then exit 1; fi
-      # 
-      # - name: Test
-      #   run: |
-      #     go test ./...
+      - uses: k1LoW/octocov-action@v0
