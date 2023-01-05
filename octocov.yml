@@ -1,4 +1,5 @@
 coverage:
+  acceptable: current >= 60%
   paths:
     - coverage.out
 codeToTestRatio:
@@ -7,6 +8,11 @@ codeToTestRatio:
     - '!**/*_test.go'
   test:
     - '**/*_test.go'
+diff:
+  datastores:
+    - artifact://${GITHUB_REPOSITORY}
+summary:
+  if: true
 testExecutionTime:
   if: true
 comment:
