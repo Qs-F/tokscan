@@ -56,6 +56,11 @@ orld`),
 			Expected:    false,
 		},
 		{
+			InputReader: strings.NewReader(`hello world`),
+			InputTarget: "",
+			Expected:    true,
+		},
+		{
 			InputReader: strings.NewReader(strings.Repeat(" ", math.MaxInt32)),
 			InputTarget: "",
 			Expected:    false,
