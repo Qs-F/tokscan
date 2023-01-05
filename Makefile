@@ -8,7 +8,6 @@ build:
 
 cov:
 	go test ./... -coverprofile=coverage.out
-	@make clean
 
 clean:
 	@rm -rf ./tokscan ./coverage.out
