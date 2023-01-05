@@ -1,18 +1,13 @@
-name: test
+name: coverage
 
 on:
-  push:
-    # branches-ignore:
-    #   - "main"
+  pull_request:
 
 jobs:
 
-  test:
-    name: test
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
+  coverage:
+    name: coverage
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
@@ -28,4 +23,6 @@ jobs:
 
       - run: go mod download
 
-      - run: make test
+      - run: make cov
+
+      - uses: k1LoW/octocov-action@v0

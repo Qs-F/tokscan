@@ -4,5 +4,5 @@ test:
 build:
 	go build .
 
-test-cov:
+cov:
 	go test ./... -coverprofile=coverage.out
