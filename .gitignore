@@ -1,3 +1,4 @@
 .DS_Store
-titech-advanced-software-engineering
-coverage.out
+./titech-advanced-software-engineering
+./tokscan
+./coverage.out
