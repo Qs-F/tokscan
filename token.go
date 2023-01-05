@@ -13,7 +13,7 @@ var intentions = []string{
 	"secondary",
 	"positive",
 	"negative",
-	"notive",
+	"notice",
 	"informative",
 }
 
