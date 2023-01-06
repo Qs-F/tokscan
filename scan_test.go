@@ -11,57 +11,57 @@ import (
 
 func TestScan(t *testing.T) {
 	tests := []struct {
-		InputReader io.Reader
+		InputReader io.ReadCloser
 		InputTarget string
 		Expected    bool
 		ExpectedErr error
 	}{
 		{
-			InputReader: strings.NewReader("hello world"),
+			InputReader: io.NopCloser(strings.NewReader("hello world")),
 			InputTarget: "world",
 			Expected:    true,
 		},
 		{
-			InputReader: strings.NewReader("hello world again"),
+			InputReader: io.NopCloser(strings.NewReader("hello world again")),
 			InputTarget: "world",
 			Expected:    true,
 		},
 		{
-			InputReader: strings.NewReader(`hello
-			world`),
+			InputReader: io.NopCloser(strings.NewReader(`hello
+			world`)),
 			InputTarget: "world",
 			Expected:    true,
 		},
 		{
-			InputReader: strings.NewReader(`hello
+			InputReader: io.NopCloser(strings.NewReader(`hello
 			world
-			again`),
+			again`)),
 			InputTarget: "world",
 			Expected:    true,
 		},
 		{
-			InputReader: strings.NewReader(`hello w
-orld`),
+			InputReader: io.NopCloser(strings.NewReader(`hello w
+orld`)),
 			InputTarget: "world",
 			Expected:    false,
 		},
 		{
-			InputReader: strings.NewReader(`hello w orld`),
+			InputReader: io.NopCloser(strings.NewReader(`hello w orld`)),
 			InputTarget: "world",
 			Expected:    false,
 		},
 		{
-			InputReader: strings.NewReader(`hello w orld`),
+			InputReader: io.NopCloser(strings.NewReader(`hello w orld`)),
 			InputTarget: "world",
 			Expected:    false,
 		},
 		{
-			InputReader: strings.NewReader(`hello world`),
+			InputReader: io.NopCloser(strings.NewReader(`hello world`)),
 			InputTarget: "",
 			Expected:    true,
 		},
 		{
-			InputReader: strings.NewReader(strings.Repeat(" ", math.MaxInt32)),
+			InputReader: io.NopCloser(strings.NewReader(strings.Repeat(" ", math.MaxInt32))),
 			InputTarget: "",
 			Expected:    false,
 			ExpectedErr: bufio.ErrTooLong,

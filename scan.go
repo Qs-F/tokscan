@@ -6,7 +6,8 @@ import (
 	"strings"
 )
 
-func Scan(r io.Reader, target string) (bool, error) {
+func Scan(r io.ReadCloser, target string) (bool, error) {
+	defer r.Close()
 	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
 		if strings.Contains(scanner.Text(), target) {
