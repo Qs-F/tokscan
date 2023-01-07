@@ -14,64 +14,64 @@ func TestScan(t *testing.T) {
 	tests := []struct {
 		InputReader io.ReadCloser
 		InputTarget []string
-		Expected    bool
+		Expected    []string
 		ExpectedErr error
 	}{
 		{
 			InputReader: io.NopCloser(strings.NewReader("hello world")),
 			InputTarget: []string{"world"},
-			Expected:    true,
+			Expected:    []string{"world"},
 		},
 		{
 			InputReader: io.NopCloser(strings.NewReader("hello world again")),
 			InputTarget: []string{"world"},
-			Expected:    true,
+			Expected:    []string{"world"},
 		},
 		{
 			InputReader: io.NopCloser(strings.NewReader(`hello
 			world`)),
 			InputTarget: []string{"world"},
-			Expected:    true,
+			Expected:    []string{"world"},
 		},
 		{
 			InputReader: io.NopCloser(strings.NewReader(`hello
 			world
 			again`)),
 			InputTarget: []string{"world"},
-			Expected:    true,
+			Expected:    []string{"world"},
 		},
 		{
 			InputReader: io.NopCloser(strings.NewReader(`hello w
 orld`)),
 			InputTarget: []string{"world"},
-			Expected:    false,
+			Expected:    nil,
 		},
 		{
 			InputReader: io.NopCloser(strings.NewReader(`hello w orld`)),
 			InputTarget: []string{"world"},
-			Expected:    false,
+			Expected:    nil,
 		},
 		{
 			InputReader: io.NopCloser(strings.NewReader(`hello w orld`)),
 			InputTarget: []string{"world"},
-			Expected:    false,
+			Expected:    nil,
 		},
 		{
 			InputReader: io.NopCloser(strings.NewReader(`hello world`)),
 			InputTarget: nil,
-			Expected:    true,
+			Expected:    nil,
 		},
 		{
 			InputReader: io.NopCloser(strings.NewReader(strings.Repeat(" ", math.MaxInt32))),
 			InputTarget: nil,
-			Expected:    false,
+			Expected:    nil,
 			ExpectedErr: bufio.ErrTooLong,
 		},
 	}
 
 	for i, test := range tests {
 		got, err := Scan(test.InputReader, test.InputTarget)
-		if errors.Is(err, test.ExpectedErr) {
+		if err != nil && errors.Is(err, test.ExpectedErr) {
 			t.Logf("[%2d]: Got err: %v", i, err)
 			continue
 		}
