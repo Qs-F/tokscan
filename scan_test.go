@@ -70,7 +70,7 @@ orld`)),
 
 	for i, test := range tests {
 		got, err := Scan(test.InputReader, test.InputTarget)
-		if errors.Is(err, test.ExpectedErr) {
+		if err != nil && errors.Is(err, test.ExpectedErr) {
 			t.Logf("[%2d]: Got err: %v", i, err)
 			continue
 		}
