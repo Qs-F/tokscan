@@ -1,10 +1,15 @@
 package tokscan
 
 import (
-	"fmt"
+	"encoding/json"
 	"path/filepath"
 	"testing"
 )
+
+func jsonMustMarshal(v any) []byte {
+	ret, _ := json.Marshal(v)
+	return ret
+}
 
 func TestFind(t *testing.T) {
 	tests := []struct {
@@ -15,7 +20,11 @@ func TestFind(t *testing.T) {
 			Input: &Args{
 				Dirs: []string{filepath.Join("testdata", "a")},
 			},
-			Expected: fmt.Sprintf(`{"%s":["bg-shade-dark-default"]}`, filepath.Join("testdata", "a", "hoge.tsx")),
+			Expected: string(jsonMustMarshal(map[string][]string{
+				filepath.Join("testdata", "a", "hoge.tsx"): {
+					"bg-shade-dark-default",
+				},
+			})),
 		},
 	}
 
