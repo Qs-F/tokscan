@@ -11,3 +11,7 @@ cov:
 
 clean:
 	@rm -rf ./tokscan ./coverage.out
+
+run:
+	@make build
+	./tokscan -d ./testdata/a/
