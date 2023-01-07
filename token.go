@@ -1,5 +1,7 @@
 package tokscan
 
+import "fmt"
+
 var usages = []string{
 	"text",
 	"bg",
@@ -29,4 +31,18 @@ var states = []string{
 	"hover",
 	"active",
 	"disabled",
+}
+
+func AllTokens() []string {
+	ret := make([]string, 0, len(usages)*len(intentions)*len(levels)*len(states))
+	for _, usage := range usages {
+		for _, intention := range intentions {
+			for _, level := range levels {
+				for _, state := range states {
+					ret = append(ret, fmt.Sprintf("%s-%s-%s-%s", usage, intention, level, state))
+				}
+			}
+		}
+	}
+	return ret
 }

@@ -5,6 +5,7 @@ import (
 	"errors"
 	"io"
 	"math"
+	"reflect"
 	"strings"
 	"testing"
 )
@@ -12,58 +13,58 @@ import (
 func TestScan(t *testing.T) {
 	tests := []struct {
 		InputReader io.ReadCloser
-		InputTarget string
-		Expected    bool
+		InputTarget []string
+		Expected    []string
 		ExpectedErr error
 	}{
 		{
 			InputReader: io.NopCloser(strings.NewReader("hello world")),
-			InputTarget: "world",
-			Expected:    true,
+			InputTarget: []string{"world"},
+			Expected:    []string{"world"},
 		},
 		{
 			InputReader: io.NopCloser(strings.NewReader("hello world again")),
-			InputTarget: "world",
-			Expected:    true,
+			InputTarget: []string{"world"},
+			Expected:    []string{"world"},
 		},
 		{
 			InputReader: io.NopCloser(strings.NewReader(`hello
 			world`)),
-			InputTarget: "world",
-			Expected:    true,
+			InputTarget: []string{"world"},
+			Expected:    []string{"world"},
 		},
 		{
 			InputReader: io.NopCloser(strings.NewReader(`hello
 			world
 			again`)),
-			InputTarget: "world",
-			Expected:    true,
+			InputTarget: []string{"world"},
+			Expected:    []string{"world"},
 		},
 		{
 			InputReader: io.NopCloser(strings.NewReader(`hello w
 orld`)),
-			InputTarget: "world",
-			Expected:    false,
+			InputTarget: []string{"world"},
+			Expected:    nil,
 		},
 		{
 			InputReader: io.NopCloser(strings.NewReader(`hello w orld`)),
-			InputTarget: "world",
-			Expected:    false,
+			InputTarget: []string{"world"},
+			Expected:    nil,
 		},
 		{
 			InputReader: io.NopCloser(strings.NewReader(`hello w orld`)),
-			InputTarget: "world",
-			Expected:    false,
+			InputTarget: []string{"world"},
+			Expected:    nil,
 		},
 		{
 			InputReader: io.NopCloser(strings.NewReader(`hello world`)),
-			InputTarget: "",
-			Expected:    true,
+			InputTarget: nil,
+			Expected:    nil,
 		},
 		{
 			InputReader: io.NopCloser(strings.NewReader(strings.Repeat(" ", math.MaxInt32))),
-			InputTarget: "",
-			Expected:    false,
+			InputTarget: nil,
+			Expected:    nil,
 			ExpectedErr: bufio.ErrTooLong,
 		},
 	}
@@ -78,7 +79,7 @@ orld`)),
 			t.Errorf("[%2d] err: %v", i, err)
 			continue
 		}
-		if got != test.Expected {
+		if !reflect.DeepEqual(got, test.Expected) {
 			t.Errorf("[%2d]: Expected %v but got %v", i, test.Expected, got)
 			continue
 		}
