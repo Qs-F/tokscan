@@ -2,18 +2,20 @@ package tokscan
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/fs"
 	"os"
 	"path/filepath"
 )
 
-func Run() error {
+func Run() (string, error) {
 	args, err := Parse(os.Args[1:])
 	if err != nil {
-		return err
+		return "", err
 	}
+	return Find(args)
+}
 
+func Find(args *Args) (string, error) {
 	// Key is file path, value is list of tokens used in that file
 	ret := make(map[string][]string)
 
@@ -36,13 +38,12 @@ func Run() error {
 			ret[file.Name()] = usedTokens
 			return nil
 		}); err != nil {
-			return err
+			return "", err
 		}
 	}
 	s, err := json.Marshal(ret)
 	if err != nil {
-		return err
+		return "", err
 	}
-	fmt.Println(string(s))
-	return nil
+	return string(s), nil
 }

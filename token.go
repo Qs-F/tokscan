@@ -46,12 +46,3 @@ func AllTokens() []string {
 	}
 	return ret
 }
-
-func IsValidToken(token string) bool {
-	for _, validToken := range AllTokens() {
-		if token == validToken {
-			return true
-		}
-	}
-	return false
-}
