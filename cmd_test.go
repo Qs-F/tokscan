@@ -1,6 +1,10 @@
 package tokscan
 
-import "testing"
+import (
+	"fmt"
+	"path/filepath"
+	"testing"
+)
 
 func TestFind(t *testing.T) {
 	tests := []struct {
@@ -9,9 +13,9 @@ func TestFind(t *testing.T) {
 	}{
 		{
 			Input: &Args{
-				Dirs: []string{"testdata/a"},
+				Dirs: []string{filepath.Join("testdata", "a")},
 			},
-			Expected: `{"testdata/a/hoge.tsx":["bg-shade-dark-default"]}`,
+			Expected: fmt.Sprintf(`{"%s":["bg-shade-dark-default"]}`, filepath.Join("testdata", "a", "hoge.tsx")),
 		},
 	}
 
